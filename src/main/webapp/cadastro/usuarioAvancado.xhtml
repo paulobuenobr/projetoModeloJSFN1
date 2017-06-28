@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+<!-- 	<ui:define name="conteudo"> -->
+<!-- 		<h:form enctype="multipart/form-data"> -->
+			<p:growl id="growl" life="2000" />
+			<h:panelGrid columns="2">
+				<p:outputLabel for="nome" value="Nome: " style="font-weight:bold" />
+				<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
+					required="true" />
+
+				<p:outputLabel for="email" value="E-mail: " style="font-weight:bold" />
+				<p:inputText id="email" value="#{usuarioController.usuario.email}"
+					required="true" validatorMessage="E-mail inválido!">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$">
+					</f:validateRegex>
+				</p:inputText>
+
+				<p:outputLabel for="senha" value="Senha: " style="font-weight:bold" />
+				<p:password id="senha" value="#{usuarioController.usuario.senha}"
+					required="true" match="conf" validatorMessage="Senha não confere!"/>
+
+				<p:outputLabel for="conf" value="Confirmação: " style="font-weight:bold" />
+				<p:password id="conf" required="true" />
+				
+				<p:outputLabel for="imagem" value="Imagem: " style="font-weight:bold" />
+				<p:fileUpload id="imagem" skinSimple="true"
+					label="Selecione a imagem" value="#{usuarioController.imagem}"
+					mode="advanced" fileUploadListener="#{usuarioController.carregarImagem}"
+					uploadLabel="Carregar" cancelLabel="Cancelar"
+					allowTypes="/(\.|\/)(jpg|png)$/" 
+					sizeLimit="1000000"
+    				invalidSizeMessage="Tamanho do arquivo inválido!"/>
+
+				<p:commandButton value="Incluir" id="btnIncluir"
+					actionListener="#{usuarioController.incluirUsuario}" process="@form" 
+					update=":frmConteudo:pnlConteudo,frmMenu:pnlMenu">
+				</p:commandButton>
+			</h:panelGrid>
+
+<!-- 		</h:form> -->
+<!-- 	</ui:define> -->
+</ui:composition>
+
+</html>

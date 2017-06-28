@@ -1,0 +1,1 @@
+Projeto modelo em JEE 7, utilizado em cursos do Professor Paulo Bueno.

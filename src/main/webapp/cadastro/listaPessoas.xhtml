@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<!-- 	<ui:define name="conteudo"> -->
+
+	<p:growl life="2000" id="msgs"></p:growl>
+
+	<p:dataTable var="pessoa" value="#{pessoaController.pessoas}"
+		paginator="true" rows="10" editable="true" id="tblPessoas">
+
+		<p:ajax event="rowEdit" listener="#{pessoaController.editarPessoa}"
+			update="frmConteudo:msgs, tblPessoas" />
+
+		<p:column headerText="Nome">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{pessoa.nome}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{pessoa.nome}" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="CPF">
+			<p:cellEditor>
+				<f:facet name="output">
+					<h:outputText value="#{pessoa.cpf}" />
+				</f:facet>
+				<f:facet name="input">
+					<p:inputText value="#{pessoa.cpf}" />
+				</f:facet>
+			</p:cellEditor>
+		</p:column>
+
+		<p:column headerText="Cidade">
+			<h:outputText value="#{pessoa.cidade.nome}" />
+		</p:column>
+
+		<p:column headerText="Estado">
+			<h:outputText value="#{pessoa.cidade.estado.nome}" />
+		</p:column>
+
+		<p:column style="width:32px">
+			<p:rowEditor />
+		</p:column>
+
+		<p:column style="width:32px">
+			<p:commandButton icon="ui-icon-close" 
+				actionListener="#{pessoaController.excluir(pessoa)}" 
+				update="frmConteudo:msgs, tblPessoas">
+				<p:confirm header="Exclusão" message="Confirma?"
+					icon="ui-icon-alert" />
+			</p:commandButton>
+		</p:column>
+
+	</p:dataTable>
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closable="false">
+		<p:commandButton value="Sim" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="Não" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+	<!-- 	</ui:define> -->
+</ui:composition>
+</html>

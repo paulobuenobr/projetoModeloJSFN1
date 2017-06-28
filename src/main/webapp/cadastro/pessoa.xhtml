@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition>
+	<!-- 	<ui:define name="conteudo"> -->
+	<!-- 		<h:form> -->
+	<p:growl id="growl" life="2000" />
+	<h:panelGrid columns="2">
+		<p:outputLabel value="Nome: " for="nome" style="font-weight:bold" />
+		<p:inputText value="#{pessoaController.pessoa.nome}" id="nome"
+			required="true" />
+		<p:outputLabel value="CPF: " style="font-weight:bold" for="cpf" />
+		<p:inputMask id="cpf" value="#{pessoaController.pessoa.cpf}"
+			mask="999.999.999-99">
+			<f:convertNumber />
+		</p:inputMask>
+		<p:outputLabel value="Estado" for="selectEstado"
+			style="font-weight:bold" />
+		<p:selectOneMenu id="selectEstado" style="width: 100% !important"
+			value="#{pessoaController.estadoSelecionado}"
+			converter="#{estadoConverter}" required="true">
+			<p:ajax listener="#{pessoaController.filtrarCidadesPorEstado}"
+				update="selectCidade" />
+			<f:selectItem itemLabel="Selecione o estado" noSelectionOption="true"
+				itemValue="" />
+			<f:selectItems value="#{pessoaController.estados}" var="estado"
+				itemLabel="#{estado.nome}" itemValue="#{estado}" />
+		</p:selectOneMenu>
+		<p:outputLabel value="Cidade" for="selectCidade"
+			style="font-weight:bold" />
+		<p:selectOneMenu id="selectCidade" style="width: 100% !important"
+			value="#{pessoaController.pessoa.cidade}"
+			converter="#{cidadeConverter}" required="true">
+			<f:selectItem itemLabel="Selecione a cidade" noSelectionOption="true"
+				itemValue="" />
+			<f:selectItems value="#{pessoaController.cidades}" var="cidade"
+				itemLabel="#{cidade.nome}" itemValue="#{cidade}" />
+		</p:selectOneMenu>
+	</h:panelGrid>
+	<h:panelGrid columns="2">
+		<p:commandButton value="Incluir" id="btnIncluir"
+			actionListener="#{pessoaController.incluirPessoa}" process="@form"
+			update="@form,growl,listaPessoas"></p:commandButton>
+	</h:panelGrid>
+	<p:dataTable id="listaPessoas" var="pessoa" value="#{pessoaController.pessoas}"
+		paginator="true" rows="10" lazy="true">
+
+		<p:column headerText="Nome">
+			<h:outputText value="#{pessoa.nome}" />
+		</p:column>
+
+		<p:column headerText="CPF">
+			<h:outputText value="#{pessoa.cpf}" />
+		</p:column>
+
+		<p:column headerText="Cidade">
+			<h:outputText value="#{pessoa.cidade.nome}" />
+		</p:column>
+
+		<p:column headerText="Estado">
+			<h:outputText value="#{pessoa.cidade.estado.nome}" />
+		</p:column>
+
+	</p:dataTable>
+
+	<!-- 		</h:form> -->
+	<!-- 	</ui:define> -->
+</ui:composition>
+</html>

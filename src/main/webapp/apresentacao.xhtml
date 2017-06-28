@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<div align="center">
+	<h1>Projeto de curso em JEE 7 - Senai CTAI</h1>
+</div>
+<div align="center">
+		<p:commandLink value="Login" id="btnLogin" action="#{menuController.setPagina('/login')}"
+			rendered="#{!loginController.loggedIn}" update=":frmConteudo:pnlConteudo">
+		</p:commandLink>
+</div>
+</html>
