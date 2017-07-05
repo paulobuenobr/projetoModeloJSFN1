@@ -1,7 +1,11 @@
 package api;
 
 import com.google.gson.Gson;
+import entity.Cidade;
+import entity.Estado;
 import entity.Pessoa;
+import service.CidadeService;
+import service.EstadoService;
 import service.PessoaService;
 
 import javax.inject.Inject;
@@ -16,10 +20,17 @@ public class PessoaResource {
     @Inject
     private PessoaService pessoaService;
 
+    @Inject
+    private CidadeService cidadeService;
+
+    @Inject
+    private EstadoService estadoService;
+
     @GET
     public Response listar() {
         List<Pessoa> pessoas = pessoaService.listarPessoas();
-        GenericEntity<List<Pessoa>> gh = new GenericEntity<List<Pessoa>>(pessoas){};
+        GenericEntity<List<Pessoa>> gh = new GenericEntity<List<Pessoa>>(pessoas) {
+        };
         return Response.ok(gh).build();
     }
 
@@ -53,7 +64,8 @@ public class PessoaResource {
     @GET
     public Response buscarPorNome(String nome) {
         List<Pessoa> pessoas = pessoaService.buscarPorNome(nome);
-        GenericEntity<List<Pessoa>> gh = new GenericEntity<List<Pessoa>>(pessoas){};
+        GenericEntity<List<Pessoa>> gh = new GenericEntity<List<Pessoa>>(pessoas) {
+        };
         return Response.ok(gh).build();
     }
 
@@ -63,4 +75,39 @@ public class PessoaResource {
         Pessoa p = pessoaService.buscarPorId(id);
         return Response.ok(p).build();
     }
+
+    @Path("/cidades")
+    @GET
+    public Response listarCidades() {
+        List<Cidade> cidades = cidadeService.listarCidades();
+        GenericEntity<List<Cidade>> gh = new GenericEntity<List<Cidade>>(cidades) {
+        };
+        return Response.ok(gh).build();
+    }
+
+    @Path("/estados")
+    @GET
+    public Response listarEstados() {
+        List<Estado> estados = estadoService.listarEstados();
+        GenericEntity<List<Estado>> gh = new GenericEntity<List<Estado>>(estados) {
+        };
+        return Response.ok(gh).build();
+    }
+
+    @Path("/cidades-estado/{idEstado}")
+    @GET
+    public Response listarCidadesEstado(@PathParam("idEstado") Integer idEstado) {
+        List<Cidade> cidades = cidadeService.listarCidadesPorEstado(idEstado);
+        GenericEntity<List<Cidade>> gh = new GenericEntity<List<Cidade>>(cidades) {
+        };
+        return Response.ok(gh).build();
+    }
+
+    @Path("/cidade/{idCidade}")
+    @GET
+    public Response cidadePorId(@PathParam("idCidade") Integer idCidade) {
+        Cidade c = cidadeService.pesquisarPorId(idCidade);
+        return Response.ok(c).build();
+    }
+
 }

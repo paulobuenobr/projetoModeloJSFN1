@@ -48,9 +48,9 @@ public class Pessoa implements Serializable {
 	}
 
 	// Mapeamento muitos para um
-//	@ManyToOne
-//	@JoinColumn(name="id_cidade")
-//	private Cidade cidade;
+	@ManyToOne
+	@JoinColumn(name="id_cidade")
+	private Cidade cidade;
 	
 	public Integer getId() {
 		return id;
@@ -71,12 +71,12 @@ public class Pessoa implements Serializable {
 		this.cpf = cpf;
 	}
 
-//	public Cidade getCidade() {
-//		return cidade;
-//	}
-//	public void setCidade(Cidade cidade) {
-//		this.cidade = cidade;
-//	}
+	public Cidade getCidade() {
+		return cidade;
+	}
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
 	
 	// TODO: implementar equals() e hashCode()
 }
